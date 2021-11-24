@@ -31,11 +31,28 @@ yarn add stellar-turret-sdk
 ## Usage
 
 ```js
-const StellarTurretSdk = require('stellar-turret-sdk');
+import { TurretSDK } from 'stellar-turret-sdk';
 
-const stellarTurretSdk = new StellarTurretSdk();
+(async () => {
+  // Turret configuration to initialize.
+  const config = { config: { domain_name: 'WORKER URL', auth_key: 'ACCOUNT SECRET KEY' }}
+  const turret = new TurretSDK(config);
+  // After creating the class you need to run setup method.
+  await turret.setup()
 
-console.log(stellarTurretSdk.renderName());
+  // Path to contract file.
+  const contractPath = "path/to/file"
+  // Array with function fields.
+  const txFunctionFields = [
+      {
+          name: 'name',
+          type: 'string',
+          description: 'This is a param',
+          rule: 'Required'
+      }
+  ]
+  return await turret.uploadContract(contractPath, txFunctionFields);
+})()
 // script
 ```
 
