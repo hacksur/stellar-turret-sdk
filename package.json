@@ -1,7 +1,7 @@
 {
   "name": "stellar-turret-sdk",
   "description": "An SDK to interact with stellar-turrets",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Julian <julian@hacksur.com> (http://hacksur.com)",
   "bugs": {
     "url": "https://github.com/hacksur/stellar-turret-sdk/issues",
@@ -23,11 +23,8 @@
     "dotenv": "^10.0.0",
     "eslint": "latest",
     "eslint-config-xo-lass": "latest",
-    "fetch-blob": "^3.1.3",
     "fixpack": "latest",
     "form-data": "^4.0.0",
-    "formdata-node": "^4.3.1",
-    "formdata-polyfill": "^4.0.10",
     "husky": "latest",
     "lint-staged": "latest",
     "node-fetch": "^2.6.6",
@@ -86,8 +83,5 @@
     "extends": [
       "xo-lass"
     ]
-  },
-  "dependencies": {
-    "axios": "^0.21.4"
   }
 }
