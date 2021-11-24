@@ -1,7 +1,7 @@
 {
   "name": "stellar-turret-sdk",
   "description": "An SDK to interact with stellar-turrets",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Julian <julian@hacksur.com> (http://hacksur.com)",
   "bugs": {
     "url": "https://github.com/hacksur/stellar-turret-sdk/issues",
@@ -10,13 +10,19 @@
   "contributors": [
     "Julian <julian@hacksur.com> (http://hacksur.com)"
   ],
+  "dependencies": {
+    "bignumber.js": "^4.1.0",
+    "form-data": "^4.0.0",
+    "node-fetch": "^2.6.6",
+    "stellar-sdk": "^9.1.0",
+    "toml": "^2.3.6"
+  },
   "devDependencies": {
     "@ava/typescript": "^3.0.1",
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
     "@types/node": "^16.11.9",
     "ava": "4.0.0-rc.1",
-    "bignumber.js": "^4.1.0",
     "codecov": "latest",
     "concurrently": "^6.4.0",
     "cross-env": "latest",
@@ -24,15 +30,11 @@
     "eslint": "latest",
     "eslint-config-xo-lass": "latest",
     "fixpack": "latest",
-    "form-data": "^4.0.0",
     "husky": "latest",
     "lint-staged": "latest",
-    "node-fetch": "^2.6.6",
     "nyc": "latest",
     "remark-cli": "latest",
     "remark-preset-github": "latest",
-    "stellar-sdk": "^9.1.0",
-    "toml": "^2.3.6",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.2",
     "xo": "latest"
