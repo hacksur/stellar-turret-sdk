@@ -1,7 +1,7 @@
 {
   "name": "stellar-turret-sdk",
   "description": "An SDK to interact with stellar-turrets",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Julian <julian@hacksur.com> (http://hacksur.com)",
   "bugs": {
     "url": "https://github.com/hacksur/stellar-turret-sdk/issues",
