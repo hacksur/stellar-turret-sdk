@@ -8,39 +8,61 @@ const HORIZON_URL = 'https://horizon-testnet.stellar.org';
 const server = new Server(HORIZON_URL);
 const STELLAR_NETWORK = 'TESTNET';
 
-interface TurretInfoI { account_id: string, version: string, fee: { min: string, max: string}, divisor: { upload: string; run: string}, horizon: string, network: string, runner: string }
-
-interface TurretConfigI {
-  config: {
-    domain_name: string;
-    auth_key?: string;
-  };
-  turrets?: { home_domain: string, account_id: string, toml: string[], info: any }[];
+interface TurretInfoI {
+  account_id: string,
+  version: string,
+  horizon: string,
+  network: string,
+  runner: string,
+  fee: {
+    min: string,
+    max: string
+  },
+  divisor: {
+    upload: string;
+    run: string
+  }
 }
 
-export class TurretSDK implements TurretConfigI {
-  config: {
-    domain_name: string;
-    auth_key?: string;
-  };
-  turrets?: { home_domain: string, account_id: string, toml: string[], info: any }[];
+interface TurretConfigI {
+  domain_name: string;
+  auth_key?: string;
+}
+
+interface TurretDataI {
+  home_domain: string,
+  account_id: string,
+  toml: string[],
+  info: any
+}
+
+interface TurretSetupI {
+  config: TurretConfigI;
+  turrets?: TurretDataI[];
+}
+
+export class TurretSDK implements TurretSetupI {
+  config: TurretConfigI
+  turrets?: TurretDataI[];
   
-  constructor({config}: TurretConfigI) {
+
+  constructor(config: {domain_name: string, auth_key?: string}) {
     this.config = config;
   }
 
   async setup() {
     try {
-      const response = await fetch(`${this.config.domain_name}/.well-known/stellar.toml`);
+      const { domain_name } = this.config;
+      const response = await fetch(`${domain_name}/.well-known/stellar.toml`);
       const data = await response.text();
       const { TSS } = toml.parse(data);
       if (TSS.TURRETS) {
         const promises = TSS.TURRETS.map(async (account: any) => {
           return await this.getAccountData(account)
         })
-        const turrets = await Promise.all(promises)
-
-        // Validate if Turrets the same.
+        
+        const turrets: TurretDataI[] = await Promise.all(promises);
+          // Validate if Turrets the same.
 
         const checkVersion = turrets.map((turret: any) => {
           return turret.info.version === turrets[0].info.version;
@@ -66,6 +88,7 @@ export class TurretSDK implements TurretConfigI {
         //   this.turrets = turrets;
         // }
         this.turrets = turrets;
+        
 
       }
     } catch (error) {
@@ -227,8 +250,9 @@ export class TurretSDK implements TurretConfigI {
 
   async getContractFeeXDR(turret: string, cost: string) {
     try {
-      if (this.config.auth_key) {
-        const sourceKeypair = Keypair.fromSecret(this.config.auth_key);
+      const { auth_key } = this.config;
+      if (auth_key) {
+        const sourceKeypair = Keypair.fromSecret(auth_key);
         const transaction = await server.loadAccount(sourceKeypair.publicKey()).then((account) => {
           return new TransactionBuilder(account, {
             fee: BASE_FEE,

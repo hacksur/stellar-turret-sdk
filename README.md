@@ -32,16 +32,18 @@ yarn add stellar-turret-sdk
 
 ```js
 import { TurretSDK } from 'stellar-turret-sdk';
+import path from 'path';
 
 (async () => {
   // Turret configuration to initialize.
-  const config = { config: { domain_name: 'WORKER URL', auth_key: 'ACCOUNT SECRET KEY' }}
+  const config = { domain_name: 'WORKER URL', auth_key: 'ACCOUNT SECRET KEY' }
   const turret = new TurretSDK(config);
   // After creating the class you need to run setup method.
   await turret.setup()
 
   // Path to contract file.
-  const contractPath = "path/to/file"
+  const contractPath = path.join(__dirname, "path/to/file")
+
   // Array with function fields.
   const txFunctionFields = [
       {

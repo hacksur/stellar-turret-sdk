@@ -14,12 +14,13 @@ const HORIZON_URL = 'https://horizon-testnet.stellar.org';
 const server = new stellar_sdk_1.Server(HORIZON_URL);
 const STELLAR_NETWORK = 'TESTNET';
 class TurretSDK {
-    constructor({ config }) {
+    constructor(config) {
         this.config = config;
     }
     async setup() {
         try {
-            const response = await (0, node_fetch_1.default)(`${this.config.domain_name}/.well-known/stellar.toml`);
+            const { domain_name } = this.config;
+            const response = await (0, node_fetch_1.default)(`${domain_name}/.well-known/stellar.toml`);
             const data = await response.text();
             const { TSS } = toml_1.default.parse(data);
             if (TSS.TURRETS) {
@@ -207,8 +208,9 @@ class TurretSDK {
     }
     async getContractFeeXDR(turret, cost) {
         try {
-            if (this.config.auth_key) {
-                const sourceKeypair = stellar_sdk_1.Keypair.fromSecret(this.config.auth_key);
+            const { auth_key } = this.config;
+            if (auth_key) {
+                const sourceKeypair = stellar_sdk_1.Keypair.fromSecret(auth_key);
                 const transaction = await server.loadAccount(sourceKeypair.publicKey()).then((account) => {
                     return new stellar_sdk_1.TransactionBuilder(account, {
                         fee: stellar_sdk_1.BASE_FEE,

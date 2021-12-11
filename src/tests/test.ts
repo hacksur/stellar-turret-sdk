@@ -6,15 +6,22 @@ import path from 'path';
 
 
 test('Upload a contract', async (t) => {
-  const turret = new TurretSDK({ config: {domain_name: process.env.TURRET_URL || 'https://tss.hacksur.workers.dev', auth_key: process.env.ACCOUNT_SECRET_KEY }});
+  const turret = new TurretSDK({domain_name: process.env.TURRET_URL || 'https://tss.hacksur.com', auth_key: process.env.ACCOUNT_SECRET_KEY });
   await turret.setup()
   const contractPath = path.join(__dirname, '..', '..', 'contracts', 'txFunction-raw.js');
 
+
   const res = await turret.uploadContract(contractPath, [
     {
-      name: 'name',
+      name: 'source',
       type: 'string',
-      description: 'This is a param',
+      description: 'This is a source',
+      rule: 'Required'
+    },
+    {
+      name: 'destination',
+      type: 'string',
+      description: 'This is a destination',
       rule: 'Required'
     }
   ]);

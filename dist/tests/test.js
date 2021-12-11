@@ -8,14 +8,20 @@ const ava_1 = __importDefault(require("ava"));
 const index_1 = require("../index");
 const path_1 = __importDefault(require("path"));
 (0, ava_1.default)('Upload a contract', async (t) => {
-    const turret = new index_1.TurretSDK({ config: { domain_name: process.env.TURRET_URL || 'https://tss.hacksur.workers.dev', auth_key: process.env.ACCOUNT_SECRET_KEY } });
+    const turret = new index_1.TurretSDK({ domain_name: process.env.TURRET_URL || 'https://tss.hacksur.com', auth_key: process.env.ACCOUNT_SECRET_KEY });
     await turret.setup();
     const contractPath = path_1.default.join(__dirname, '..', '..', 'contracts', 'txFunction-raw.js');
     const res = await turret.uploadContract(contractPath, [
         {
-            name: 'name',
+            name: 'source',
             type: 'string',
-            description: 'This is a param',
+            description: 'This is a source',
+            rule: 'Required'
+        },
+        {
+            name: 'destination',
+            type: 'string',
+            description: 'This is a destination',
             rule: 'Required'
         }
     ]);
